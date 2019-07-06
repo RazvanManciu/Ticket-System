@@ -18,6 +18,7 @@ public class Sector {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(mappedBy = "sector")
     @Column(name = "parking_spaces")
     private List<ParkingSpace> parkingSpaces;
 

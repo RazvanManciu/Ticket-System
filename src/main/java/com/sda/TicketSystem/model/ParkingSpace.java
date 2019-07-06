@@ -14,7 +14,8 @@ public class ParkingSpace {
     @Column(name = "isFree")
     private Boolean isFree;
 
-    @Column(name = "sector")
+    @ManyToOne
+    @JoinColumn(name = "sector_id")
     private Sector sector;
 
     @Column(name = "number")
