@@ -3,7 +3,7 @@ package com.sda.TicketSystem.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "parkingSpace")
+@Table(name = "parking_space")
 public class ParkingSpace {
 
     @Id
@@ -24,8 +24,7 @@ public class ParkingSpace {
 
     }
 
-    public ParkingSpace(Long id, Boolean isFree, Sector sector, int number) {
-        this.id = id;
+    public ParkingSpace(Boolean isFree, Sector sector, int number) {
         this.isFree = isFree;
         this.sector = sector;
         this.number = number;

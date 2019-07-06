@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "subscription")
-public class Subscription {
+@Table(name = "ticket")
+public class Ticket {
 
     @Id
     @Column(name = "id", unique = true)
@@ -21,14 +21,22 @@ public class Subscription {
     @Column(name = "code")
     private String code;
 
-    public Subscription(){
+    @Column(name = "pay_date")
+    private Date payDate;
+
+    @Column(name = "payed_amount")
+    private int payedAmount;
+
+    public Ticket(){
 
     }
 
-    public Subscription(Date enterDate, Date exitDate, String code) {
+    public Ticket(Date enterDate, Date exitDate, String code, Date payDate, int payedAmount) {
         this.enterDate = enterDate;
         this.exitDate = exitDate;
         this.code = code;
+        this.payDate = payDate;
+        this.payedAmount = payedAmount;
     }
 
     public Long getId() {
@@ -61,5 +69,21 @@ public class Subscription {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
+    public int getPayedAmount() {
+        return payedAmount;
+    }
+
+    public void setPayedAmount(int payedAmount) {
+        this.payedAmount = payedAmount;
     }
 }
