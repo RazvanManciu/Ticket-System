@@ -1,9 +1,10 @@
 package com.sda.TicketSystem.controller;
 
 import com.sda.TicketSystem.model.Subscription;
-import com.sda.TicketSystem.repository.SubscriptionRepository;
 import com.sda.TicketSystem.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.sda.TicketSystem.model.TicketDTO;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,8 @@ public class MainController {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    @RequestMapping(value={"/"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/"},
+            method = RequestMethod.GET)
     public String index(Model model) {
         String user = "Admin";
 
@@ -26,12 +28,42 @@ public class MainController {
         return "home";
     }
 
-    @RequestMapping(value={"/access"}, method = RequestMethod.POST)
-    public String checkCode(@RequestBody String accessCode, Model model) {
-        String user = "Admin";
+    @RequestMapping(value={"/access"},
+            method = RequestMethod.POST)
+    public String accesParking(@RequestBody String accessCode, Model model) {
+        model.addAttribute("access_code", accessCode);
 
-        model.addAttribute("user", user);
-        model.addAttribute("message2", accessCode);
+        return "home";
+    }
+
+    @RequestMapping(value={"/payments"},
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String payTicket(TicketDTO ticketDTO, Model model) {
+
+        if(Integer.valueOf(ticketDTO.getTicketCode()) == 20) {
+            String ticketAmount = ticketDTO.getTicketCode();
+            model.addAttribute("ticket_amount", ticketAmount);
+        }
+        return "home";
+    }
+
+    @RequestMapping(value={"/exit"},
+            method = RequestMethod.POST)
+    public String exitParking(@RequestBody String exitCode, Model model) {
+        String exit_code = exitCode;
+
+        model.addAttribute("exit_code", exit_code);
+
+        return "home";
+    }
+
+    @RequestMapping(value={"/subscription"},
+            method = RequestMethod.POST)
+    public String buySubscription(@RequestBody String exitCode, Model model) {
+        String exit_code = exitCode;
+
+        model.addAttribute("exit_code", exit_code);
 
         return "home";
     }
