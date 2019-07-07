@@ -1,9 +1,6 @@
 package com.sda.TicketSystem.model;
 
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Null;
 import java.util.List;
 
 @Entity
@@ -23,7 +20,6 @@ public class Sector {
     private List<ParkingSpace> parkingSpaces;
 
     public Sector(){
-
     }
 
     public Sector(String name, List<ParkingSpace> parkingSpaces) {

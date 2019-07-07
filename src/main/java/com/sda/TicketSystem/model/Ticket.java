@@ -1,7 +1,7 @@
 package com.sda.TicketSystem.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ticket")
@@ -13,16 +13,16 @@ public class Ticket {
     private Long id;
 
     @Column(name = "enter_date")
-    private Date enterDate;
+    private LocalDateTime enterDate;
 
     @Column(name = "exit_date")
-    private Date exitDate;
+    private LocalDateTime exitDate;
 
     @Column(name = "code")
     private String code;
 
     @Column(name = "pay_date")
-    private Date payDate;
+    private LocalDateTime payDate;
 
     @Column(name = "payed_amount")
     private int payedAmount;
@@ -31,7 +31,7 @@ public class Ticket {
 
     }
 
-    public Ticket(Date enterDate, Date exitDate, String code, Date payDate, int payedAmount) {
+    public Ticket(LocalDateTime enterDate, LocalDateTime exitDate, String code, LocalDateTime payDate, int payedAmount) {
         this.enterDate = enterDate;
         this.exitDate = exitDate;
         this.code = code;
@@ -47,19 +47,19 @@ public class Ticket {
         this.id = id;
     }
 
-    public Date getEnterDate() {
+    public LocalDateTime getEnterDate() {
         return enterDate;
     }
 
-    public void setEnterDate(Date enterDate) {
+    public void setEnterDate(LocalDateTime enterDate) {
         this.enterDate = enterDate;
     }
 
-    public Date getExitDate() {
+    public LocalDateTime getExitDate() {
         return exitDate;
     }
 
-    public void setExitDate(Date exitDate) {
+    public void setExitDate(LocalDateTime exitDate) {
         this.exitDate = exitDate;
     }
 
@@ -71,11 +71,11 @@ public class Ticket {
         this.code = code;
     }
 
-    public Date getPayDate() {
+    public LocalDateTime getPayDate() {
         return payDate;
     }
 
-    public void setPayDate(Date payDate) {
+    public void setPayDate(LocalDateTime payDate) {
         this.payDate = payDate;
     }
 

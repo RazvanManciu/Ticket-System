@@ -1,6 +1,7 @@
 package com.sda.TicketSystem.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -12,22 +13,21 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "enter_date")
-    private Date enterDate;
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
 
-    @Column(name = "exit_date")
-    private Date exitDate;
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
 
     @Column(name = "code")
     private String code;
 
     public Subscription(){
-
     }
 
-    public Subscription(Date enterDate, Date exitDate, String code) {
-        this.enterDate = enterDate;
-        this.exitDate = exitDate;
+    public Subscription(LocalDateTime startDate, LocalDateTime endDate, String code) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.code = code;
     }
 
@@ -39,20 +39,20 @@ public class Subscription {
         this.id = id;
     }
 
-    public Date getEnterDate() {
-        return enterDate;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setEnterDate(Date enterDate) {
-        this.enterDate = enterDate;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getExitDate() {
-        return exitDate;
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
-    public void setExitDate(Date exitDate) {
-        this.exitDate = exitDate;
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public String getCode() {
