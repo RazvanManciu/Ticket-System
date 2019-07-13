@@ -2,9 +2,26 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome</title>
     <link rel="stylesheet" type="text/css"
           href="${pageContext.request.contextPath}/css/style.css"/>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#start_date").datepicker({
+                changeMonth:true,
+                changeYear:true
+            });
+            $("#end_date").datepicker({
+                changeMonth:true,
+                changeYear:true
+            });
+        });
+    </script>
 </head>
 <body>
 <h1>Ticketing system</h1>
@@ -14,7 +31,7 @@
         <h2>Access Section</h2>
         <form action="/access" method="post">
             Access code: <input type="text" name="accessCode" placeholder="Please enter the access code !">
-            <input type="submit" value="Enter">
+            <input type="submit" value="Submit">
         </form>
         <p>${access_code}</p>
     </div>
@@ -42,11 +59,12 @@
 <div>
     <div style="border: 5px solid magenta; padding: 20px 30px;">
         <h2>Buy Subscription Section</h2>
-        <form action="/subscription" method="post">
-            Choose dates: <input type="text" name="exitCode" placeholder="Please enter your code !">
-            <input type="submit" value="Check">
+        <form action="/subscriptions" method="post">
+            Choose period: <input type="text" id="start_date" name="startDate" placeholder="Choose start date">
+            <input type="text" id="end_date" name="endDate" placeholder="Choose end date">
+            <input type="submit" value="Submit">
         </form>
-        <p>.. ${exit_code}</p>
+        <span>Subscription details: <b>start date: </b> ${sub_start_date}, <b>end date: </b> ${sub_end_date}</span>
     </div>
 </div>
 
