@@ -1,7 +1,7 @@
 package com.sda.TicketSystem.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -14,10 +14,10 @@ public class Subscription {
     private Long id;
 
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Column(name = "code")
     private String code;
@@ -25,7 +25,7 @@ public class Subscription {
     public Subscription(){
     }
 
-    public Subscription(LocalDateTime startDate, LocalDateTime endDate, String code) {
+    public Subscription(LocalDate startDate, LocalDate endDate, String code) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.code = code;
@@ -39,19 +39,19 @@ public class Subscription {
         this.id = id;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
