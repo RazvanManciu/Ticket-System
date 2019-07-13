@@ -1,6 +1,8 @@
 package com.sda.TicketSystem.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SubscriptionDTO {
 
@@ -18,6 +20,18 @@ public class SubscriptionDTO {
     }
 
     public String getStartDate() {
+/*        //Create a DateTimeFormatter with your required format:
+        DateTimeFormat dateTimeFormat =
+                new DateTimeFormatter(DateTimeFormatter.BASIC_ISO_DATE);
+
+        //Next parse the date from the @RequestParam, specifying the TO type as a TemporalQuery:
+        LocalDateTime date = dateTimeFormat.parse(startDate, LocalDateTime::from);*/
+
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.BASIC_ISO_DATE;
+//        LocalDateTime startDateLDT = LocalDateTime.parse("2016-03-04T10:15:30", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        LocalDate localDate = LocalDate.now();
+        LocalDate startDateLD = LocalDate.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE);
+        System.out.println(startDateLD.getDayOfMonth());
         return startDate;
     }
 
@@ -26,6 +40,7 @@ public class SubscriptionDTO {
     }
 
     public String getEndDate() {
+        System.out.println(endDate);
         return endDate;
     }
 

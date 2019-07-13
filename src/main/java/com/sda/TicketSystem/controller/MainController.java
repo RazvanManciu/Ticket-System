@@ -40,7 +40,6 @@ public class MainController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String accesParking(AccessCodeDTO accessCodeDTO, Model model) {
         String code = accessCodeDTO.getAccessCode();
-        System.out.println(code);
         if(Objects.nonNull(code) && !code.isEmpty()){
             // abonament
             SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
@@ -89,13 +88,6 @@ public class MainController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String buySubscription(SubscriptionDTO subscriptionDTO, Model model) {
-
-/*        //Create a DateTimeFormatter with your required format:
-        DateTimeFormat dateTimeFormat =
-                new DateTimeFormatter(DateTimeFormatter.BASIC_ISO_DATE);
-
-        //Next parse the date from the @RequestParam, specifying the TO type as a TemporalQuery:
-        LocalDateTime date = dateTimeFormat.parse(startDate, LocalDateTime::from);*/
 
         model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
         model.addAttribute("sub_end_date", subscriptionDTO.getEndDate());

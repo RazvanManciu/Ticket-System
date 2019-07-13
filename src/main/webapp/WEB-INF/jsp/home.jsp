@@ -14,11 +14,13 @@
         $(function () {
             $("#start_date").datepicker({
                 changeMonth:true,
-                changeYear:true
+                changeYear:true,
+                dateFormat:'yy-mm-dd'
             });
             $("#end_date").datepicker({
                 changeMonth:true,
-                changeYear:true
+                changeYear:true,
+                dateFormat:'yy-mm-dd'
             });
         });
     </script>
