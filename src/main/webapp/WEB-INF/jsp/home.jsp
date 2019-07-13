@@ -41,7 +41,7 @@
     <div class="int_div" style="border-color: blue;">
         <h2>Payment Section</h2>
         <form action="/payments" method="post">
-            Ticket code: <input type="text" name="accessCode" placeholder="Please enter the ticket code !">
+            Ticket code: <input type="text" name="ticketCode" placeholder="Please enter the ticket code !">
             <input type="submit" value="Calculate amount">
         </form>
         <p>You must pay: ${ticket_amount} $</p>
