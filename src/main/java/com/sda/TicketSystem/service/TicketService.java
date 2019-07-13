@@ -10,10 +10,15 @@ import java.util.Optional;
 @Service
 public class TicketService {
 
-    @Autowired
     private TicketRepository ticketRepository;
 
+    @Autowired
+    public TicketService(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
+
     public Ticket create(Ticket ticket){
+
         return ticketRepository.save(ticket);
     }
 
