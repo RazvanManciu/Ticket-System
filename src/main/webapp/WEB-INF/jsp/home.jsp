@@ -67,14 +67,20 @@
             <input type="text" id="end_date" name="endDate" placeholder="Choose end date">
             <input type="submit" value="Submit">
         </form>
-        <span>Subscription details: <b>start date: </b> ${sub_start_date}, <b>end date: </b> ${sub_end_date}</span>
+        <span>Subscription details: <br>
+            <b>start date: </b> ${sub_start_date}<br>
+            <b>end date: </b> ${sub_end_date}<br>
+            <b>code: </b> ${sub_code}</span>
     </div>
 </div>
 <div class="ext_div">
     <div class="int_div" style="border-color: rebeccapurple;">
         <h2>Admin Section</h2>
         <form action="/login" method="post">
-            Choose period: <input type="text" name="username" placeholder="User Name">
+            <label>
+                Log in:
+                <input type="text" name="username" placeholder="User Name">
+            </label>
             <input type="password" name="password" placeholder="Password">
             <input type="submit" value="Submit">
         </form>

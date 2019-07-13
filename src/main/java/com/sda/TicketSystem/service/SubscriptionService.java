@@ -18,8 +18,19 @@ public class SubscriptionService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public Subscription create(Subscription subscription) {
-        return subscriptionRepository.save(subscription);
+    public SubscriptionDTO create(SubscriptionDTO subscriptionDTO) {
+
+        Subscription subscription = new Subscription();
+        subscription.setStartDate(subscriptionDTO.getStartDate());
+        subscription.setEndDate(subscriptionDTO.getEndDate());
+        // TO DO: generator cod
+        subscription.setCode("s1");
+
+        subscriptionRepository.save(subscription);
+
+        subscriptionDTO.setCode(subscription.getCode());
+
+        return subscriptionDTO;
     }
 
     public SubscriptionDTO getByCode(String code) {

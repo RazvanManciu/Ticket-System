@@ -79,11 +79,6 @@ public class MainController {
         return "home";
     }
 
-/*    @ModelAttribute
-    LocalDateTime initLocalDateTime() {
-        return LocalDateTime.now();
-    }*/
-
     @RequestMapping(value = {"/subscriptions"},
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -91,6 +86,10 @@ public class MainController {
 
         model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
         model.addAttribute("sub_end_date", subscriptionDTO.getEndDate());
+
+        SubscriptionDTO result = subscriptionService.create(subscriptionDTO);
+
+        model.addAttribute("sub_code", subscriptionDTO.getCode());
 
         return "home";
     }
@@ -105,12 +104,4 @@ public class MainController {
 
         return "home";
     }
-
-/*    @PostMapping
-    public Subscription createSubscription(@RequestBody Subscription subscriptionCode){
-        if(subscriptionCode == null){
-            throw new RuntimeException("Subscription code does not exist");
-        }
-        return subscriptionService.create(subscriptionCode);
-    }*/
 }
