@@ -1,19 +1,19 @@
 package com.sda.TicketSystem.controller;
 
+import com.sda.TicketSystem.model.AccessCodeDTO;
 import com.sda.TicketSystem.model.SubscriptionDTO;
 import com.sda.TicketSystem.model.TicketDTO;
+import com.sda.TicketSystem.model.UserDTO;
 import com.sda.TicketSystem.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Controller
 public class MainController {
@@ -36,9 +36,24 @@ public class MainController {
     }
 
     @RequestMapping(value = {"/access"},
-            method = RequestMethod.POST)
-    public String accesParking(@RequestBody String accessCode, Model model) {
-        model.addAttribute("access_code", accessCode);
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String accesParking(AccessCodeDTO accessCodeDTO, Model model) {
+        String code = accessCodeDTO.getAccessCode();
+        System.out.println(code);
+        if(Objects.nonNull(code) && !code.isEmpty()){
+            // abonament
+            SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
+            if(Objects.nonNull(subscriptionDTO)){
+                // subscription found
+                model.addAttribute("access_message", "Access Granted !");
+            } else {
+                model.addAttribute("access_message", "Access NOT Granted !");
+            }
+        } else {
+            model.addAttribute("access_message", "Generate ticket...");
+        }
+        model.addAttribute("access_code", accessCodeDTO.getAccessCode());
 
         return "home";
     }
@@ -73,8 +88,7 @@ public class MainController {
     @RequestMapping(value = {"/subscriptions"},
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String buySubscription(SubscriptionDTO subscriptionDTO,
-                                  Model model) {
+    public String buySubscription(SubscriptionDTO subscriptionDTO, Model model) {
 
 /*        //Create a DateTimeFormatter with your required format:
         DateTimeFormat dateTimeFormat =
@@ -83,13 +97,19 @@ public class MainController {
         //Next parse the date from the @RequestParam, specifying the TO type as a TemporalQuery:
         LocalDateTime date = dateTimeFormat.parse(startDate, LocalDateTime::from);*/
 
-//        System.out.println(startDate);
-//        System.out.println(endDate);
+        model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
+        model.addAttribute("sub_end_date", subscriptionDTO.getEndDate());
 
-//        SubscriptionDTO subscriptionDTO = new SubscriptionDTO(startDate, endDate);
-//
-//        model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
-//        model.addAttribute("sub_end_date", endDate);
+        return "home";
+    }
+
+    @RequestMapping(value = {"/login"},
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String login(UserDTO userDTO, Model model) {
+
+        model.addAttribute("user_name", userDTO.getUsername());
+        model.addAttribute("password", userDTO.getPassword());
 
         return "home";
     }

@@ -1,6 +1,7 @@
 package com.sda.TicketSystem.service;
 
 import com.sda.TicketSystem.model.Subscription;
+import com.sda.TicketSystem.model.SubscriptionDTO;
 import com.sda.TicketSystem.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,23 +11,36 @@ import java.util.Optional;
 @Service
 public class SubscriptionService {
 
-    @Autowired
     private SubscriptionRepository subscriptionRepository;
 
-    public Subscription create(Subscription subscription){
+    @Autowired
+    public SubscriptionService(SubscriptionRepository subscriptionRepository) {
+        this.subscriptionRepository = subscriptionRepository;
+    }
+
+    public Subscription create(Subscription subscription) {
         return subscriptionRepository.save(subscription);
     }
 
-    public Subscription getByCode(String code){
+    public SubscriptionDTO getByCode(String code) {
         Optional<Subscription> subscription = subscriptionRepository.findByCode(code);
-        return subscription.orElse(null);
+        if (subscription.isPresent()) {
+            SubscriptionDTO subscriptionDTO =
+                    new SubscriptionDTO(
+                            subscription.get().getStartDate().toString(),
+                            subscription.get().getEndDate().toString(),
+                            subscription.get().getCode()
+                    );
+            return subscriptionDTO;
+        }
+        return null;
     }
 
-    public Subscription update(Subscription subscription){
+    public Subscription update(Subscription subscription) {
         return subscriptionRepository.save(subscription);
     }
 
-    public void deleteSubscription(Long id){
+    public void deleteSubscription(Long id) {
         subscriptionRepository.deleteById(id);
     }
 }
