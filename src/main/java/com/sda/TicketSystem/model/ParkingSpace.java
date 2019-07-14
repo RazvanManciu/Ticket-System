@@ -11,7 +11,7 @@ public class ParkingSpace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "is_free")
+    @Column(name = "is_free", columnDefinition = "boolean default true")
     private Boolean isFree;
 
     @ManyToOne

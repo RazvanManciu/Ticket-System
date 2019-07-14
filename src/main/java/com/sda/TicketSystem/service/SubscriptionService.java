@@ -6,6 +6,7 @@ import com.sda.TicketSystem.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -23,8 +24,10 @@ public class SubscriptionService {
         Subscription subscription = new Subscription();
         subscription.setStartDate(subscriptionDTO.getStartDate());
         subscription.setEndDate(subscriptionDTO.getEndDate());
-        // TO DO: generator cod
-        subscription.setCode("s1");
+
+        String generatedSubscriptionCode = "s" + Instant.now().toEpochMilli();
+
+        subscription.setCode(generatedSubscriptionCode);
 
         subscriptionRepository.save(subscription);
 

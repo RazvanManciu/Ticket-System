@@ -29,9 +29,7 @@ public class MainController {
             method = RequestMethod.GET)
     public String index(Model model) {
         String user = "Admin";
-
         model.addAttribute("user", user);
-
         return "home";
     }
 
@@ -40,20 +38,9 @@ public class MainController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String accesParking(AccessCodeDTO accessCodeDTO, Model model) {
         String code = accessCodeDTO.getAccessCode();
-        if(Objects.nonNull(code) && !code.isEmpty()){
-            // abonament
-            SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
-            if(Objects.nonNull(subscriptionDTO)){
-                // subscription found
-                model.addAttribute("access_message", "Access Granted !");
-            } else {
-                model.addAttribute("access_message", "Access NOT Granted !");
-            }
-        } else {
-            model.addAttribute("access_message", "Generate ticket...");
-        }
-        model.addAttribute("access_code", accessCodeDTO.getAccessCode());
-
+        String accessMessage = getAccessMessage(code, model);
+        model.addAttribute("access_code", code);
+        model.addAttribute("access_message", accessMessage);
         return "home";
     }
 
@@ -103,5 +90,25 @@ public class MainController {
         model.addAttribute("password", userDTO.getPassword());
 
         return "home";
+    }
+
+
+    private String getAccessMessage(String code, Model model) {
+        String accessMessage;
+        if (Objects.nonNull(code) && !code.isEmpty()) {
+            // it's a subscription code
+            SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
+            if (Objects.nonNull(subscriptionDTO)) {
+                // subscription valid
+                accessMessage = "Access Granted !";
+            } else {
+                // subscription invalid
+                accessMessage = "Access NOT Granted !";
+            }
+        } else {
+            // it's ticket time
+            accessMessage = "Generating ticket...";
+        }
+        return accessMessage;
     }
 }

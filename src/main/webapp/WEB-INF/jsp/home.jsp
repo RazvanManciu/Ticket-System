@@ -35,8 +35,7 @@
             Access code: <input type="text" name="accessCode" placeholder="Please enter the access code !">
             <input type="submit" value="Submit">
         </form>
-        <p>${access_code}</p>
-        <p>${access_message}</p>
+        <p>Code entered: ${access_code}. ${access_message}</p>
     </div>
 </div>
 <div class="ext_div">
