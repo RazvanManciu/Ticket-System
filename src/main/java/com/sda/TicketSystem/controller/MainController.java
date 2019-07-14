@@ -117,6 +117,8 @@ public class MainController {
             // it's ticket time
             accessMessage = "Generating ticket...";
             TicketDTO ticketDTO = ticketService.create();
+            model.addAttribute("new_ticket_code", ticketDTO.getTicketCode());
+            model.addAttribute("new_ticket_enter_date", ticketDTO.getEnterDate());
         }
         return accessMessage;
     }

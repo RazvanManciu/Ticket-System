@@ -36,6 +36,7 @@
             <input type="submit" value="Submit">
         </form>
         <p>Code entered: ${access_code}. ${access_message}</p>
+        <p>Ticket code: ${new_ticket_code}. Ticket enter date: ${new_ticket_enter_date}</p>
     </div>
 </div>
 <div class="ext_div">
