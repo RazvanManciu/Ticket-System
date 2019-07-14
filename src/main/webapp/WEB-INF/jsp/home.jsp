@@ -45,8 +45,13 @@
         <form action="/payments" method="post">
             Ticket code: <input type="text" name="ticketCode" placeholder="Please enter the ticket code !">
             <input type="submit" value="Calculate amount">
+            You must pay: ${ticket_amount}
         </form>
-        <p>You must pay: ${ticket_amount} $</p>
+        <form action="/cash" method="post">
+            Ticket code: <input type="text" name="ticketCode" placeholder="Please enter the ticket code !">
+            Amount to pay: <input type="text" name="payedAmount" placeholder="Insert amount to pay !">
+            <input type="submit" value="Pay">
+        </form>
     </div>
 </div>
 <div class="ext_div">

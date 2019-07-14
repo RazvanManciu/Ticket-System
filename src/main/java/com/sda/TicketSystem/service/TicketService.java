@@ -48,7 +48,10 @@ public class TicketService {
         return null;
     }
 
-    public Ticket update(Ticket ticket) {
+    public Ticket update(TicketDTO ticketDTO) {
+        Ticket ticket = ticketRepository.findByCode(ticketDTO.getTicketCode()).orElseThrow(() -> new RuntimeException("invalid code"));
+        ticket.setPayedAmount(ticketDTO.getPayedAmount());
+        ticket.setPayDate(LocalDate.now());
         return ticketRepository.save(ticket);
     }
 

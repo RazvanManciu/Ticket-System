@@ -53,4 +53,5 @@ public class TicketDTO {
     public void setPayedAmount(int payedAmount) {
         this.payedAmount = payedAmount;
     }
+
 }

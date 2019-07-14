@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -63,6 +64,24 @@ public class MainController {
         }
         return "home";
     }
+
+    @RequestMapping(value = {"/cash"},
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String ticketPayed(TicketDTO ticketDTO, Model model) {
+        String ticketCode = ticketDTO.getTicketCode();
+        TicketDTO ticketDTOFromDB = ticketService.getByCode(ticketCode);
+        if (ticketDTOFromDB != null) {
+            ticketDTOFromDB.setPayedAmount(ticketDTO.getPayedAmount());
+            try {
+                ticketService.update(ticketDTOFromDB);
+            } catch (Exception e) {
+                model.addAttribute("errorMessage", e.getMessage());
+            }
+        }
+        return "home";
+    }
+
 
     @RequestMapping(value = {"/exit"},
             method = RequestMethod.POST)
