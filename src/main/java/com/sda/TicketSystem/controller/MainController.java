@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 @Controller
@@ -21,6 +23,7 @@ public class MainController {
 
     private SubscriptionService subscriptionService;
     private TicketService ticketService;
+    private int ticketPricePerDay = 3;
 
     public MainController(SubscriptionService subscriptionService, TicketService ticketService) {
         this.subscriptionService = subscriptionService;
@@ -50,10 +53,13 @@ public class MainController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String payTicket(TicketDTO ticketDTO, Model model) {
-
-        if (Integer.valueOf(ticketDTO.getTicketCode()) == 20) {
-            String ticketAmount = ticketDTO.getTicketCode();
-            model.addAttribute("ticket_amount", ticketAmount);
+        String ticketCode = ticketDTO.getTicketCode();
+        TicketDTO ticketDTOFromDB = ticketService.getByCode(ticketCode);
+        if (ticketDTOFromDB != null) {
+            Period period = Period.between(ticketDTOFromDB.getEnterDate(), LocalDate.now());
+            int numDays = period.getDays();
+            int payedAmount = numDays * ticketPricePerDay;
+            model.addAttribute("ticket_amount", payedAmount);
         }
         return "home";
     }

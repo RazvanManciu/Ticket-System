@@ -37,9 +37,15 @@ public class TicketService {
         return ticketDTO;
     }
 
-    public Ticket getByCode(String code) {
+    public TicketDTO getByCode(String code) {
         Optional<Ticket> ticket = ticketRepository.findByCode(code);
-        return ticket.orElse(null);
+        if(ticket.isPresent()){
+            TicketDTO ticketDTO = new TicketDTO();
+            ticketDTO.setTicketCode(ticket.get().getCode());
+            ticketDTO.setEnterDate(ticket.get().getEnterDate());
+            return ticketDTO;
+        }
+        return null;
     }
 
     public Ticket update(Ticket ticket) {
