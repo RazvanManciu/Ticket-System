@@ -5,6 +5,7 @@ import com.sda.TicketSystem.model.SubscriptionDTO;
 import com.sda.TicketSystem.model.TicketDTO;
 import com.sda.TicketSystem.model.UserDTO;
 import com.sda.TicketSystem.service.SubscriptionService;
+import com.sda.TicketSystem.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,11 @@ import java.util.Objects;
 public class MainController {
 
     private SubscriptionService subscriptionService;
+    private TicketService ticketService;
 
-    @Autowired
-    public MainController(SubscriptionService subscriptionService) {
+    public MainController(SubscriptionService subscriptionService, TicketService ticketService) {
         this.subscriptionService = subscriptionService;
+        this.ticketService = ticketService;
     }
 
     @RequestMapping(value = {"/"},
@@ -108,6 +110,7 @@ public class MainController {
         } else {
             // it's ticket time
             accessMessage = "Generating ticket...";
+            TicketDTO ticketDTO = ticketService.create();
         }
         return accessMessage;
     }
