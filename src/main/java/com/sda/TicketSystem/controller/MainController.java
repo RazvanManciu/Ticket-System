@@ -26,6 +26,7 @@ public class MainController {
     private TicketService ticketService;
     private int ticketPricePerDay = 3;
 
+    @Autowired
     public MainController(SubscriptionService subscriptionService, TicketService ticketService) {
         this.subscriptionService = subscriptionService;
         this.ticketService = ticketService;
@@ -103,7 +104,7 @@ public class MainController {
 
         SubscriptionDTO result = subscriptionService.create(subscriptionDTO);
 
-        model.addAttribute("sub_code", subscriptionDTO.getCode());
+        model.addAttribute("sub_code", result.getCode());
 
         return "home";
     }
@@ -127,7 +128,12 @@ public class MainController {
             SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
             if (Objects.nonNull(subscriptionDTO)) {
                 // subscription valid
-                accessMessage = "Access Granted !";
+                if(subscriptionDTO.getEndDate().compareTo(LocalDate.now()) > 0 &&
+                subscriptionDTO.getStartDate().compareTo(LocalDate.now()) < 0 ) {
+                    accessMessage = "Access Granted !";
+                } else {
+                    accessMessage = "Outside the Subscription validity period. Access NOT Granted !";
+                }
             } else {
                 // subscription invalid
                 accessMessage = "Access NOT Granted !";
