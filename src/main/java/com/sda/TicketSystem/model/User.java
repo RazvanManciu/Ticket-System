@@ -1,6 +1,7 @@
 package com.sda.TicketSystem.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -17,8 +18,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    public User(){
+    @Transient
+    private String passwordConfirm;
 
+    @ManyToMany
+    private Set<Role> roles;
+
+    public User(){
     }
 
     public User(String username, String password) {
@@ -48,5 +54,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

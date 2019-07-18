@@ -72,13 +72,13 @@
             <input type="text" id="end_date" name="endDate" placeholder="Choose end date">
             <input type="submit" value="Submit">
         </form>
-        <span>Subscription details: <br>
+        <span>Subscription details: <b>${dates_error}</b><br>
             <b>start date: </b> ${sub_start_date}<br>
             <b>end date: </b> ${sub_end_date}<br>
             <b>code: </b> ${sub_code}</span>
     </div>
 </div>
-<div class="ext_div">
+<%--<div class="ext_div">
     <div class="int_div" style="border-color: rebeccapurple;">
         <h2>Admin Section</h2>
         <form action="/login" method="post">
@@ -91,7 +91,7 @@
         </form>
         <span>Subscription details: <b>Username: </b> ${user_name}, <b>Password: </b> ${password}</span>
     </div>
-</div>
+</div>--%>
 
 <%--<a href="${pageContext.request.contextPath}/personList">Person List</a>--%>
 

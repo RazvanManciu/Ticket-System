@@ -1,8 +1,8 @@
 package com.sda.TicketSystem.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class SubscriptionDTO {
 
@@ -10,7 +10,7 @@ public class SubscriptionDTO {
     private String endDate;
     private String code;
 
-    public SubscriptionDTO(){
+    public SubscriptionDTO() {
     }
 
     public SubscriptionDTO(String startDate, String endDate, String code) {
@@ -43,5 +43,10 @@ public class SubscriptionDTO {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public boolean validateDates() {
+        return Objects.nonNull(startDate) && !startDate.isEmpty() &&
+                Objects.nonNull(endDate) && !endDate.isEmpty();
     }
 }

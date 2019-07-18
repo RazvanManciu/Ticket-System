@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -35,8 +34,8 @@ public class MainController {
     @RequestMapping(value = {"/"},
             method = RequestMethod.GET)
     public String index(Model model) {
-        String user = "Admin";
-        model.addAttribute("user", user);
+/*        String user = "";
+        model.addAttribute("user", user);*/
         return "home";
     }
 
@@ -99,17 +98,21 @@ public class MainController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String buySubscription(SubscriptionDTO subscriptionDTO, Model model) {
 
-        model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
-        model.addAttribute("sub_end_date", subscriptionDTO.getEndDate());
+        if (subscriptionDTO.validateDates()) {
+            model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
+            model.addAttribute("sub_end_date", subscriptionDTO.getEndDate());
 
-        SubscriptionDTO result = subscriptionService.create(subscriptionDTO);
+            SubscriptionDTO result = subscriptionService.create(subscriptionDTO);
 
-        model.addAttribute("sub_code", result.getCode());
+            model.addAttribute("sub_code", result.getCode());
+        } else {
+            model.addAttribute("dates_error", "Please select both Start Date and End Date !!!");
+        }
 
         return "home";
     }
 
-    @RequestMapping(value = {"/login"},
+/*    @RequestMapping(value = {"/login"},
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String login(UserDTO userDTO, Model model) {
@@ -118,7 +121,7 @@ public class MainController {
         model.addAttribute("password", userDTO.getPassword());
 
         return "home";
-    }
+    }*/
 
 
     private String getAccessMessage(String code, Model model) {
@@ -128,8 +131,8 @@ public class MainController {
             SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
             if (Objects.nonNull(subscriptionDTO)) {
                 // subscription valid
-                if(subscriptionDTO.getEndDate().compareTo(LocalDate.now()) > 0 &&
-                subscriptionDTO.getStartDate().compareTo(LocalDate.now()) < 0 ) {
+                if (subscriptionDTO.getEndDate().compareTo(LocalDate.now()) > 0 &&
+                        subscriptionDTO.getStartDate().compareTo(LocalDate.now()) < 0) {
                     accessMessage = "Access Granted !";
                 } else {
                     accessMessage = "Outside the Subscription validity period. Access NOT Granted !";
