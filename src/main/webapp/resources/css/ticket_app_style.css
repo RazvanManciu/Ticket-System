@@ -3,17 +3,11 @@ body{
     color: white;
 }
 
-div.ext_div{
-    border: 0;
-    padding: 0;
-    margin: 0;
-}
 div.int_div{
-    width: 60%;
-    margin: 15px auto;
+    margin: 20px auto;
     background-color: #123C69;
     border: 0;
-    padding: 3px 20px;
+    padding: 10px 20px;
 }
 
 .page_title{
