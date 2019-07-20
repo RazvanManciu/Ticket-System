@@ -84,11 +84,12 @@ public class MainController {
 
 
     @RequestMapping(value = {"/exit"},
-            method = RequestMethod.POST)
-    public String exitParking(@RequestBody String exitCode, Model model) {
-        String exit_code = exitCode;
-
+            method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String exitParking(AccessCodeDTO accessCodeDTO, Model model) {
+        String exit_code = accessCodeDTO.getAccessCode();
+        String exitMessage = getExitMessage(exit_code, model);
         model.addAttribute("exit_code", exit_code);
+        model.addAttribute("exit_message", exitMessage);
 
         return "home";
     }
@@ -111,18 +112,6 @@ public class MainController {
 
         return "home";
     }
-
-/*    @RequestMapping(value = {"/login"},
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String login(UserDTO userDTO, Model model) {
-
-        model.addAttribute("user_name", userDTO.getUsername());
-        model.addAttribute("password", userDTO.getPassword());
-
-        return "home";
-    }*/
-
 
     private String getAccessMessage(String code, Model model) {
         String accessMessage;
@@ -149,5 +138,45 @@ public class MainController {
             model.addAttribute("new_ticket_enter_date", ticketDTO.getEnterDate());
         }
         return accessMessage;
+    }
+
+    private String getExitMessage(String code, Model model) {
+        String exitMessage = null;
+        if (Objects.nonNull(code) && !code.isEmpty()) {
+            // code inserted
+            if (code.substring(1).equals("s")) {
+                SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
+                if (Objects.nonNull(subscriptionDTO)) {
+                    // subscription found
+                    if (subscriptionDTO.getEndDate().compareTo(LocalDate.now()) > 0 &&
+                            subscriptionDTO.getStartDate().compareTo(LocalDate.now()) < 0) {
+                        exitMessage = "Exit Granted !";
+                    } else {
+                        exitMessage = "Outside the Subscription validity period. Exit NOT Granted !";
+                    }
+                } else {
+                    // subscription invalid
+                    exitMessage = "Subscription code invalid! Exit NOT Granted !";
+                }
+            } else if (code.substring(1).equals("t")) {
+                TicketDTO ticketDTO = ticketService.getByCode(code);
+                if (Objects.nonNull(ticketDTO)) {
+                    //ticket found
+                    if (ticketService.isPayed(ticketDTO)) {
+                        exitMessage = "Exit Granted !";
+                    } else {
+                        exitMessage = "Ticket NOT payed! Exit NOT Granted !";
+                    }
+                } else {
+                    // subscription invalid
+                    exitMessage = "Ticket code invalid! Exit NOT Granted !";
+                }
+            } else {
+                exitMessage = "Insert a valid code!";
+            }
+        } else {
+            exitMessage = "Insert a valid code!";
+        }
+        return exitMessage;
     }
 }

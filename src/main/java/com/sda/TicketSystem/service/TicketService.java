@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
 @Service
 public class TicketService {
 
     private TicketRepository ticketRepository;
+    private int ticketPricePerDay = 3;
 
     @Autowired
     public TicketService(TicketRepository ticketRepository) {
@@ -39,10 +41,12 @@ public class TicketService {
 
     public TicketDTO getByCode(String code) {
         Optional<Ticket> ticket = ticketRepository.findByCode(code);
-        if(ticket.isPresent()){
+        if (ticket.isPresent()) {
             TicketDTO ticketDTO = new TicketDTO();
             ticketDTO.setTicketCode(ticket.get().getCode());
             ticketDTO.setEnterDate(ticket.get().getEnterDate());
+            ticketDTO.setPayedAmount(ticket.get().getPayedAmount());
+            ticketDTO.setPayDate(ticket.get().getPayDate());
             return ticketDTO;
         }
         return null;
@@ -57,5 +61,17 @@ public class TicketService {
 
     public void deleteTicket(Long id) {
         ticketRepository.deleteById(id);
+    }
+
+    public Boolean isPayed(TicketDTO ticketDTO) {
+        if ((LocalDate.now().equals(ticketDTO.getPayDate()))) {
+            Period period = Period.between(ticketDTO.getEnterDate(), LocalDate.now());
+            int numDays = period.getDays();
+            int payedAmount = numDays * ticketPricePerDay;
+            if (payedAmount == ticketDTO.getPayedAmount()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
