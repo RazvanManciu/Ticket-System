@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<div class="jumbotron text-center">
+<div class="jumbotron text-center" style="padding: 30px; background-color: #eeeeee;">
     <h1 class="display-3 page_title">Ticketing system</h1>
 </div>
 

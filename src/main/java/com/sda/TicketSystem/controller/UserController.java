@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
@@ -29,7 +30,6 @@ public class UserController {
     @GetMapping("/registration")
     public String registration(Model model){
         model.addAttribute("userForm", new User());
-
         return "registration";
     }
 
@@ -56,8 +56,21 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("/welcome")
+    @GetMapping({"/", "/welcome"})
     public String welcome(Model model){
         return "welcome";
     }
+
+    @PostMapping("/welcome")
+    public String welcomeWithPost(Model model){
+/*        System.out.println(((User)model.asMap().get("userForm")).getUsername());
+        System.out.println(((User)model.asMap().get("userForm")).getPassword());
+        System.out.println(((User)model.asMap().get("userForm")).getRoles());
+
+        model.addAttribute("welcome_message", "Welcome " + ((User)model.asMap().get("userForm")).getUsername());
+ */
+        return "redirect:/welcome";
+    }
+
+
 }

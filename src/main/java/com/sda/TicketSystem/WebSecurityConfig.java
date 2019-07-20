@@ -33,17 +33,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/registration", "/")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/resources/**", "/registration").permitAll()
+//                .antMatchers("/public/**").anonymous()
+                .antMatchers("/private/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/welcome")
+                .successForwardUrl("/welcome")
                 .permitAll()
                 .and()
-                .logout()
-                .permitAll();
+                .logout().permitAll();
     }
 
     @Override
@@ -51,16 +52,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         webSecurity
                 .ignoring()
 //                .antMatchers("/", "/access", "/payments", "/cash", "/exit", "/subscriptions");
-                .antMatchers( "/public/**");
+                .antMatchers("/public/**");
     }
 
     @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception{
+    public AuthenticationManager customAuthenticationManager() throws Exception {
         return authenticationManager();
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 }

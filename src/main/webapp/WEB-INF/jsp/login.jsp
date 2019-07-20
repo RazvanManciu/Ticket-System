@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <title>Log in with your account</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 </head>
 
 <body>
@@ -21,8 +21,7 @@
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="Username"
-                   autofocus="true"/>
+            <input name="username" type="text" class="form-control" placeholder="Username" autofocus/>
             <input name="password" type="password" class="form-control" placeholder="Password"/>
             <span>${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
