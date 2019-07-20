@@ -1,9 +1,6 @@
 package com.sda.TicketSystem.controller;
 
-import com.sda.TicketSystem.model.AccessCodeDTO;
-import com.sda.TicketSystem.model.SubscriptionDTO;
-import com.sda.TicketSystem.model.TicketDTO;
-import com.sda.TicketSystem.model.UserDTO;
+import com.sda.TicketSystem.model.*;
 import com.sda.TicketSystem.service.SubscriptionService;
 import com.sda.TicketSystem.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,10 +78,11 @@ public class MainController {
     }
 
     @RequestMapping(value = {"/exit"},
-            method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String exitParking(AccessCodeDTO accessCodeDTO, Model model) {
-        String exit_code = accessCodeDTO.getAccessCode();
-        String exitMessage = getExitMessage(exit_code, model);
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String exitParking(ExitCodeDTO exitCodeDTO, Model model) {
+        String exit_code = exitCodeDTO.getExitCode();
+        String exitMessage = getExitMessage(exit_code);
         model.addAttribute("exit_code", exit_code);
         model.addAttribute("exit_message", exitMessage);
 
@@ -137,11 +135,11 @@ public class MainController {
         return accessMessage;
     }
 
-    private String getExitMessage(String code, Model model) {
+    private String getExitMessage(String code) {
         String exitMessage;
         if (Objects.nonNull(code) && !code.isEmpty()) {
             // code inserted
-            if (code.substring(1).equals("s")) {
+            if (code.substring(0, 1).equals("s")) {
                 SubscriptionDTO subscriptionDTO = subscriptionService.getByCode(code);
                 if (Objects.nonNull(subscriptionDTO)) {
                     // subscription found
@@ -155,7 +153,7 @@ public class MainController {
                     // subscription invalid
                     exitMessage = "Subscription code invalid! Exit NOT Granted !";
                 }
-            } else if (code.substring(1).equals("t")) {
+            } else if (code.substring(0, 1).equals("t")) {
                 TicketDTO ticketDTO = ticketService.getByCode(code);
                 if (Objects.nonNull(ticketDTO)) {
                     //ticket found
