@@ -4,10 +4,12 @@ import com.sda.TicketSystem.model.*;
 import com.sda.TicketSystem.service.SubscriptionService;
 import com.sda.TicketSystem.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,6 +18,7 @@ import java.time.Period;
 import java.util.Objects;
 
 @Controller
+@RequestMapping(value = "/public")
 public class MainController {
 
     private SubscriptionService subscriptionService;
@@ -28,13 +31,21 @@ public class MainController {
         this.ticketService = ticketService;
     }
 
-    @RequestMapping(value = {"/"},
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+/*        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));*/
+    }
+
+    @RequestMapping(value = "/",
             method = RequestMethod.GET)
     public String index(Model model) {
         return "home";
     }
 
-    @RequestMapping(value = {"/access"},
+    @RequestMapping(value = "/access",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String accesParking(AccessCodeDTO accessCodeDTO, Model model) {
@@ -45,39 +56,26 @@ public class MainController {
         return "home";
     }
 
-    @RequestMapping(value = {"/payments"},
+    @RequestMapping(value = "/payments",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String payTicket(TicketDTO ticketDTO, Model model) {
         String ticketCode = ticketDTO.getTicketCode();
-        TicketDTO ticketDTOFromDB = ticketService.getByCode(ticketCode);
-        if (ticketDTOFromDB != null) {
-            Period period = Period.between(ticketDTOFromDB.getEnterDate(), LocalDate.now());
-            int numDays = period.getDays();
-            int payedAmount = numDays * ticketPricePerDay;
-            model.addAttribute("ticket_amount", payedAmount);
-        }
+        String paymentMessage = getPaymentMessage(ticketCode);
+        model.addAttribute("payment_message", paymentMessage);
         return "home";
     }
 
-    @RequestMapping(value = {"/cash"},
+    @RequestMapping(value = "/cash",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String ticketPayed(TicketDTO ticketDTO, Model model) {
-        String ticketCode = ticketDTO.getTicketCode();
-        TicketDTO ticketDTOFromDB = ticketService.getByCode(ticketCode);
-        if (ticketDTOFromDB != null) {
-            ticketDTOFromDB.setPayedAmount(ticketDTO.getPayedAmount());
-            try {
-                ticketService.update(ticketDTOFromDB);
-            } catch (Exception e) {
-                model.addAttribute("errorMessage", e.getMessage());
-            }
-        }
+    public String ticketPayed(TicketForPaymentDTO ticketForPaymentDTO, Model model) {
+        String payedAmountMessage = getPayedAmountMessage(model, ticketForPaymentDTO);
+        model.addAttribute("payed_amount_message", payedAmountMessage);
         return "home";
     }
 
-    @RequestMapping(value = {"/exit"},
+    @RequestMapping(value = "/exit",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String exitParking(ExitCodeDTO exitCodeDTO, Model model) {
@@ -88,22 +86,18 @@ public class MainController {
         return "home";
     }
 
-    @RequestMapping(value = {"/subscriptions"},
+    @RequestMapping(value = "/subscriptions",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String buySubscription(SubscriptionDTO subscriptionDTO, Model model) {
-
         if (subscriptionDTO.validateDates()) {
             model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
             model.addAttribute("sub_end_date", subscriptionDTO.getEndDate());
-
             SubscriptionDTO result = subscriptionService.create(subscriptionDTO);
-
             model.addAttribute("sub_code", result.getCode());
         } else {
             model.addAttribute("dates_error", "Please select both Start Date and End Date !!!");
         }
-
         return "home";
     }
 
@@ -172,5 +166,47 @@ public class MainController {
             exitMessage = "Insert a valid code!";
         }
         return exitMessage;
+    }
+
+    private String getPaymentMessage(String ticketCode) {
+        String paymentMessage;
+        TicketDTO ticketDTOFromDB = ticketService.getByCode(ticketCode);
+        if (Objects.nonNull(ticketCode) && !ticketCode.isEmpty()) {
+            if (ticketDTOFromDB != null) {
+                Period period = Period.between(ticketDTOFromDB.getEnterDate(), LocalDate.now());
+                int numDays = period.getDays();
+                int payedAmount = numDays * ticketPricePerDay;
+                paymentMessage = "For your valid ticket you must pay " + payedAmount + "$.";
+            } else {
+                paymentMessage = "Invalid ticket code!";
+            }
+        } else {
+            paymentMessage = "You must insert a ticket code!";
+        }
+        return paymentMessage;
+    }
+
+    private String getPayedAmountMessage(Model model, TicketForPaymentDTO ticketForPaymentDTO) {
+        String ticketCode = ticketForPaymentDTO.getTickeCodeForPayment();
+        String payedAmountFromForm = ticketForPaymentDTO.getAmountToPay();
+        String payedAmountMessage;
+        if (Objects.nonNull(ticketCode) && !ticketCode.isEmpty() && Objects.nonNull(payedAmountFromForm)
+                && Integer.valueOf(payedAmountFromForm) >= 0) {
+            TicketDTO ticketDTOFromDB = ticketService.getByCode(ticketCode);
+            if (ticketDTOFromDB != null) {
+                ticketDTOFromDB.setPayedAmount(Integer.valueOf(payedAmountFromForm));
+                try {
+                    ticketService.update(ticketDTOFromDB);
+                } catch (Exception e) {
+                    model.addAttribute("errorMessage", e.getMessage());
+                }
+                payedAmountMessage = "For the ticket code " + ticketCode + " you payed " + payedAmountFromForm + "$.";
+            } else {
+                payedAmountMessage = "Invalid ticket code!";
+            }
+        } else {
+            payedAmountMessage = "You must insert the ticket code and the valid amount of money !";
+        }
+        return payedAmountMessage;
     }
 }

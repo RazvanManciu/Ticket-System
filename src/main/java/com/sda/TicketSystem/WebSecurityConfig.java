@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/registration")
+                .antMatchers("/resources/**", "/registration", "/")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -50,7 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity webSecurity) {
         webSecurity
                 .ignoring()
-                .antMatchers("/", "/access", "/payments", "/cash", "/exit", "/subscriptions");
+//                .antMatchers("/", "/access", "/payments", "/cash", "/exit", "/subscriptions");
+                .antMatchers( "/public/**");
     }
 
     @Bean
