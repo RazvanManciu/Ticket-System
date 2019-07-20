@@ -85,7 +85,6 @@ public class MainController {
         String exitMessage = getExitMessage(exit_code);
         model.addAttribute("exit_code", exit_code);
         model.addAttribute("exit_message", exitMessage);
-
         return "home";
     }
 
