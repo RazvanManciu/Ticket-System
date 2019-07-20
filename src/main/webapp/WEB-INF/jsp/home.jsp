@@ -104,23 +104,12 @@
             </form>
             <br>
             <span>You entered this code: <strong>${exit_code}</strong></span>
+            <br>
+            <br>
+            <span><strong>${exit_message}</strong></span>
         </div>
     </div>
 </div>
-<%--<div class="ext_div">
-    <div class="int_div" style="border-color: rebeccapurple;">
-        <h2>Admin Section</h2>
-        <form action="/login" method="post">
-            <label>
-                Log in:
-                <input type="text" name="username" placeholder="User Name">
-            </label>
-            <input type="password" name="password" placeholder="Password">
-            <input type="submit" value="Submit">
-        </form>
-        <span>Subscription details: <b>Username: </b> ${user_name}, <b>Password: </b> ${password}</span>
-    </div>
-</div>--%>
 
 <%--<a href="${pageContext.request.contextPath}/personList">Person List</a>--%>
 

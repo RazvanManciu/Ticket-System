@@ -34,8 +34,6 @@ public class MainController {
     @RequestMapping(value = {"/"},
             method = RequestMethod.GET)
     public String index(Model model) {
-/*        String user = "";
-        model.addAttribute("user", user);*/
         return "home";
     }
 
@@ -81,7 +79,6 @@ public class MainController {
         }
         return "home";
     }
-
 
     @RequestMapping(value = {"/exit"},
             method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -141,7 +138,7 @@ public class MainController {
     }
 
     private String getExitMessage(String code, Model model) {
-        String exitMessage = null;
+        String exitMessage;
         if (Objects.nonNull(code) && !code.isEmpty()) {
             // code inserted
             if (code.substring(1).equals("s")) {
@@ -168,7 +165,7 @@ public class MainController {
                         exitMessage = "Ticket NOT payed! Exit NOT Granted !";
                     }
                 } else {
-                    // subscription invalid
+                    // ticket invalid
                     exitMessage = "Ticket code invalid! Exit NOT Granted !";
                 }
             } else {
