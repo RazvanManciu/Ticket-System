@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class SubscriptionDTO {
 
+    private Long id;
     private String startDate;
     private String endDate;
     private String code;
@@ -48,5 +49,13 @@ public class SubscriptionDTO {
     public boolean validateDates() {
         return Objects.nonNull(startDate) && !startDate.isEmpty() &&
                 Objects.nonNull(endDate) && !endDate.isEmpty();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

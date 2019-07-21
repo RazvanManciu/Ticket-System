@@ -35,7 +35,7 @@ public class MainController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-/*        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        /*SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));*/
     }
@@ -177,14 +177,11 @@ public class MainController {
             if (ticketDTOFromDB != null) {
                 Period period = Period.between(ticketDTOFromDB.getEnterDate(), LocalDate.now());
                 int numDays = period.getDays();
-
                 int ticketPricePerDay = 3;
-
                 PriceDTO priceDTO = priceService.getByType("ticket");
                 if(priceDTO != null){
                     ticketPricePerDay = Integer.valueOf(priceDTO.getPrice());
                 }
-
                 int payedAmount = numDays * ticketPricePerDay;
                 paymentMessage = "For your valid ticket you must pay " + payedAmount + "$.";
             } else {

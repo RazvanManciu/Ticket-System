@@ -33,13 +33,13 @@
 
             <ul class="navbar-nav">
                 <li class="nav-item mx-sm-4">
-                    <a class="nav-link" href="${contextPath}/private/prices">Prices</a>
+                    <a class="nav-link" href="#">Prices</a>
                 </li>
                 <li class="nav-item mr-sm-4">
-                    <a class="nav-link" href="#">Subscriptions</a>
+                    <a class="nav-link" href="${contextPath}/private/subscriptions">Subscriptions</a>
                 </li>
                 <li class="nav-item mr-sm-4">
-                    <a class="nav-link" href="#">Parking Spaces</a>
+                    <a class="nav-link" href="${contextPath}/private/spaces">Parking Spaces</a>
                 </li>
                 <li class="nav-item mr-sm-4">
                     <a class="nav-link" href="#">Statistics</a>
@@ -52,8 +52,9 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-5 int_div rounded-lg" style="background-color: #006600">
+                <div class="col-sm-7 int_div rounded-lg" style="background-color: #006600">
                     <h2>Manage prices</h2>
+                    <br>
                     <form class="form-inline" action="/private/prices" method="post">
                         <label for="priceField" class="mr-sm-2">Price:</label>
                         <input type="text" class="form-control form-control-sm mb-2 mr-sm-2" name="price" id="priceField"

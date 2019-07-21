@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ticketing System - Private section</title>
+    <title>Ticketing System - Private section - Manage Parking Spaces</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/private_section_style.css"/>
 </head>
@@ -25,9 +25,9 @@
             <h2 class="display-4 page_title">Welcome ${pageContext.request.userPrincipal.name}</h2>
         </div>
 
-        <nav class="navbar navbar-expand-sm justify-content" style="background-color: #006666; margin-bottom: 30px;">
+        <nav class="navbar navbar-expand-sm justify-content sticky-top" style="background-color: #006666; margin-bottom: 30px;">
                 <%--        <a class="navbar-brand" href="#">Ticketing system</a>--%>
-            <a class="navbar-brand mr-sm-3" href="#">
+            <a class="navbar-brand mr-sm-3" href="${contextPath}/private/welcome">
                 <img src="${contextPath}/resources/img/sorinmiron_img.jpg" alt="User thumbnail" style="width: 45px">
             </a>
 
@@ -39,7 +39,7 @@
                     <a class="nav-link" href="${contextPath}/private/subscriptions">Subscriptions</a>
                 </li>
                 <li class="nav-item mr-sm-4">
-                    <a class="nav-link" href="${contextPath}/private/spaces">Parking Spaces</a>
+                    <a class="nav-link" href="#">Parking Spaces</a>
                 </li>
                 <li class="nav-item mr-sm-4">
                     <a class="nav-link" href="#">Statistics</a>
@@ -52,10 +52,30 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-8 int_div rounded-lg">
-                    <h2>Welcome to Ticketing System admin page</h2>
+                <div class="col-sm-7 int_div rounded-lg" style="background-color: #006600">
+                    <h2>Manage Parking Spaces</h2>
                     <br>
-                    <p>Pay attention to details !!! ;)</p>
+                    <h4>Parking Spaces List:</h4>
+                    <br>
+                    <c:if test="${parkingSpaceList != null}">
+                        <table>
+                            <th>Id</th>
+                            <th>Sector Name</th>
+                            <th>Place Number</th>
+                            <th>Availability</th>
+                            <c:forEach items="${parkingSpaceList}" var="item">
+                                <tr>
+                                    <td>${item.id}</td>
+                                    <td>${item.sectorName}</td>
+                                    <td>${item.number}</td>
+                                    <td>${item.isFree}</td>
+                                </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
+                    <c:if test="${parkingSpaceList == null}">
+                        <span>${parking_spaces_message}</span>
+                    </c:if>
                 </div>
             </div>
         </div>

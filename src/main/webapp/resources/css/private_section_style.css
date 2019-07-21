@@ -28,3 +28,27 @@ a {
 a:hover {
     background-color: lightgreen;
 }
+
+table{
+    width: 80%;
+    margin: auto;
+    color: black;
+    border: 1px solid #dddddd;
+    text-align: center;
+}
+td, th{
+    border: 1px solid #dddddd;
+    padding: 8px;
+}
+tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+tr:nth-child(odd){
+    background-color: white;
+}
+th{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: black;
+}

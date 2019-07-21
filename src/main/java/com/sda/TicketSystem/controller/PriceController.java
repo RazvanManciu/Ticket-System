@@ -32,7 +32,7 @@ public class PriceController {
     }
 
     @GetMapping("/prices")
-    public String registration(Model model) {
+    public String getPrices(Model model) {
         return "prices";
     }
 
