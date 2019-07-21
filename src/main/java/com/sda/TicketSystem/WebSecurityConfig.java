@@ -40,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/welcome")
-                .successForwardUrl("/welcome")
+                .defaultSuccessUrl("/private/welcome")
+//                .successForwardUrl("/welcome")
                 .permitAll()
                 .and()
                 .logout().permitAll();
@@ -51,8 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity webSecurity) {
         webSecurity
                 .ignoring()
-//                .antMatchers("/", "/access", "/payments", "/cash", "/exit", "/subscriptions");
-                .antMatchers("/public/**");
+                .antMatchers("/", "/access", "/payments", "/cash", "/exit", "/subscriptions");
+//                .antMatchers("/public/**");
     }
 
     @Bean

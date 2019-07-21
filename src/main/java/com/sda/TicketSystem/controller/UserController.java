@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
@@ -44,7 +43,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/private/welcome";
     }
 
     @GetMapping("/login")
@@ -56,12 +55,12 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping({"/", "/welcome"})
+    @GetMapping({"/private/welcome"})
     public String welcome(Model model){
         return "welcome";
     }
 
-    @PostMapping("/welcome")
+    @PostMapping("/private/welcome")
     public String welcomeWithPost(Model model){
 /*        System.out.println(((User)model.asMap().get("userForm")).getUsername());
         System.out.println(((User)model.asMap().get("userForm")).getPassword());
@@ -69,8 +68,6 @@ public class UserController {
 
         model.addAttribute("welcome_message", "Welcome " + ((User)model.asMap().get("userForm")).getUsername());
  */
-        return "redirect:/welcome";
+        return "redirect:/private/welcome";
     }
-
-
 }

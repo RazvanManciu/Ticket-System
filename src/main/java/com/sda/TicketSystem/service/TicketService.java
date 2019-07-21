@@ -1,5 +1,6 @@
 package com.sda.TicketSystem.service;
 
+import com.sda.TicketSystem.model.PriceDTO;
 import com.sda.TicketSystem.model.Ticket;
 import com.sda.TicketSystem.model.TicketDTO;
 import com.sda.TicketSystem.repository.TicketRepository;
@@ -15,11 +16,12 @@ import java.util.Optional;
 public class TicketService {
 
     private TicketRepository ticketRepository;
-    private int ticketPricePerDay = 3;
+    private PriceService priceService;
 
     @Autowired
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, PriceService priceService) {
         this.ticketRepository = ticketRepository;
+        this.priceService = priceService;
     }
 
     public TicketDTO create() {
@@ -67,6 +69,12 @@ public class TicketService {
         if ((LocalDate.now().equals(ticketDTO.getPayDate()))) {
             Period period = Period.between(ticketDTO.getEnterDate(), LocalDate.now());
             int numDays = period.getDays();
+
+            int ticketPricePerDay = 3;
+            PriceDTO priceDTO = priceService.getByType("ticket");
+            if(priceDTO != null){
+                ticketPricePerDay = Integer.valueOf(priceDTO.getPrice());
+            }
             int payedAmount = numDays * ticketPricePerDay;
             if (payedAmount == ticketDTO.getPayedAmount()) {
                 return true;

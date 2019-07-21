@@ -1,6 +1,7 @@
 package com.sda.TicketSystem.controller;
 
 import com.sda.TicketSystem.model.*;
+import com.sda.TicketSystem.service.PriceService;
 import com.sda.TicketSystem.service.SubscriptionService;
 import com.sda.TicketSystem.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +19,17 @@ import java.time.Period;
 import java.util.Objects;
 
 @Controller
-@RequestMapping(value = "/public")
 public class MainController {
 
     private SubscriptionService subscriptionService;
     private TicketService ticketService;
-    private int ticketPricePerDay = 3;
+    private PriceService priceService;
 
     @Autowired
-    public MainController(SubscriptionService subscriptionService, TicketService ticketService) {
+    public MainController(SubscriptionService subscriptionService, TicketService ticketService, PriceService priceService) {
         this.subscriptionService = subscriptionService;
         this.ticketService = ticketService;
+        this.priceService = priceService;
     }
 
     @InitBinder
@@ -90,6 +91,7 @@ public class MainController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String buySubscription(SubscriptionDTO subscriptionDTO, Model model) {
+
         if (subscriptionDTO.validateDates()) {
             model.addAttribute("sub_start_date", subscriptionDTO.getStartDate());
             model.addAttribute("sub_end_date", subscriptionDTO.getEndDate());
@@ -175,6 +177,14 @@ public class MainController {
             if (ticketDTOFromDB != null) {
                 Period period = Period.between(ticketDTOFromDB.getEnterDate(), LocalDate.now());
                 int numDays = period.getDays();
+
+                int ticketPricePerDay = 3;
+
+                PriceDTO priceDTO = priceService.getByType("ticket");
+                if(priceDTO != null){
+                    ticketPricePerDay = Integer.valueOf(priceDTO.getPrice());
+                }
+
                 int payedAmount = numDays * ticketPricePerDay;
                 paymentMessage = "For your valid ticket you must pay " + payedAmount + "$.";
             } else {

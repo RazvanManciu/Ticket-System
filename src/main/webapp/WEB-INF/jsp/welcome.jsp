@@ -27,12 +27,13 @@
 
         <nav class="navbar navbar-expand-sm justify-content" style="background-color: #006666; margin-bottom: 30px;">
                 <%--        <a class="navbar-brand" href="#">Ticketing system</a>--%>
-            <a class="navbar-brand mr-sm-3" href="#">
+            <a class="navbar-brand mr-sm-3" href="${contextPath}/private/welcome">
                 <img src="${contextPath}/resources/img/sorinmiron_img.jpg" alt="User thumbnail" style="width: 45px">
             </a>
+
             <ul class="navbar-nav">
                 <li class="nav-item mx-sm-4">
-                    <a class="nav-link" href="#">Prices</a>
+                    <a class="nav-link" href="${contextPath}/private/prices">Prices</a>
                 </li>
                 <li class="nav-item mr-sm-4">
                     <a class="nav-link" href="#">Subscriptions</a>
@@ -52,9 +53,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-8 int_div rounded-lg">
-                    <h2>Manage prices</h2>
+                    <h2>Welcome to Ticketing System admin page</h2>
                     <br>
-                    <p>bau bau bla bla bau</p>
+                    <p>Pay attention to details !!! ;)</p>
                 </div>
             </div>
         </div>

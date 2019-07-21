@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface PriceRepository extends JpaRepository<Price, Long> {
-    Optional<Price> findByPrice(Long id);
+    Optional<Price> findByType(String type);
 }
 

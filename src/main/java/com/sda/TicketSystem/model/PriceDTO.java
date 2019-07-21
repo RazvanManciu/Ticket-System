@@ -2,6 +2,7 @@ package com.sda.TicketSystem.model;
 
 public class PriceDTO {
 
+    private Long id;
     private String type;
     private String price;
 
