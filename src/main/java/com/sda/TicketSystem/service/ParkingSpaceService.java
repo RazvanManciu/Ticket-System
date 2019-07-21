@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ParkingSpaceService {
@@ -35,16 +34,34 @@ public class ParkingSpaceService {
         return parkingSpaceDTOS;
     }
 
-    public ParkingSpace create(ParkingSpace parkingSpace){
+    public int getNumberOfSpaces() {
+        List<ParkingSpace> parkingSpaceList = parkingSpaceRepository.findAll();
+        if (parkingSpaceList != null)
+            return parkingSpaceList.size();
+        return 0;
+    }
+
+    public int getNumberOfFreeSpaces() {
+        List<ParkingSpace> parkingSpaceList = parkingSpaceRepository.findAll();
+        int numberOfFreeSpaces = 0;
+        if (parkingSpaceList != null)
+            for (ParkingSpace parkingSpace : parkingSpaceList) {
+                if (parkingSpace.getFree())
+                    numberOfFreeSpaces++;
+            }
+        return numberOfFreeSpaces;
+    }
+
+/*    public ParkingSpace create(ParkingSpace parkingSpace) {
         return parkingSpaceRepository.save(parkingSpace);
     }
 
-    public ParkingSpace getbyId(Long id){
+    public ParkingSpace getbyId(Long id) {
         Optional<ParkingSpace> parkingSpace = parkingSpaceRepository.findById(id);
         return parkingSpace.orElse(null);
-    }
+    }*/
 
-    public void deleteParkingSpace(Long id){
+    public void deleteParkingSpace(Long id) {
         parkingSpaceRepository.deleteById(id);
     }
 }

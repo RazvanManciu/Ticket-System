@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ticketing System - Private section - Manage prices</title>
+    <title>Ticketing System - Private section - Statistics</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/private_section_style.css"/>
 </head>
@@ -25,7 +25,7 @@
             <h2 class="display-4 page_title">Welcome ${pageContext.request.userPrincipal.name}</h2>
         </div>
 
-        <nav class="navbar navbar-expand-sm justify-content" style="background-color: #006666; margin-bottom: 30px;">
+        <nav class="navbar navbar-expand-sm justify-content sticky-top" style="background-color: #006666; margin-bottom: 30px;">
                 <%--        <a class="navbar-brand" href="#">Ticketing system</a>--%>
             <a class="navbar-brand mr-sm-3" href="${contextPath}/private/welcome">
                 <img src="${contextPath}/resources/img/sorinmiron_img.jpg" alt="User thumbnail" style="width: 45px">
@@ -33,7 +33,7 @@
 
             <ul class="navbar-nav">
                 <li class="nav-item mx-sm-4">
-                    <a class="nav-link" href="#">Prices</a>
+                    <a class="nav-link" href="${contextPath}/private/prices">Prices</a>
                 </li>
                 <li class="nav-item mr-sm-4">
                     <a class="nav-link" href="${contextPath}/private/subscriptions">Subscriptions</a>
@@ -42,7 +42,7 @@
                     <a class="nav-link" href="${contextPath}/private/spaces">Parking Spaces</a>
                 </li>
                 <li class="nav-item mr-sm-4">
-                    <a class="nav-link" href="${contextPath}/private/statistics">Statistics</a>
+                    <a class="nav-link" href="#">Statistics</a>
                 </li>
                 <li class="nav-item mr-sm-4">
                     <a class="nav-link" href="#" onclick="document.forms['logoutForm'].submit()">Logout</a>
@@ -53,20 +53,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-7 int_div rounded-lg" style="background-color: #006600">
-                    <h2>Manage prices</h2>
+                    <h2>Statistics</h2>
                     <br>
-                    <form class="form-inline" action="/private/prices" method="post">
-                        <label for="priceField" class="mr-sm-2">Price:</label>
-                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2" name="price" id="priceField"
-                               placeholder="Enter price">
-                        <label for="typeField" class="mr-sm-2">Type:</label>
-                        <input type="text" class="form-control form-control-sm mb-2 mr-sm-2" name="type" id="typeField"
-                               placeholder="Enter type(ticket or subscription)">
-                        <input type="submit" class="btn btn-info btn-sm mb-2" value="Submit">
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
+                    <h4>Parking spaces statistics:</h4>
                     <br>
-                    <span>${create_price_messages}</span>
+                    <p>Total Parking Spaces: <b>${spacesNumber}</b>.</p>
+                    <p>Total free parking spaces: <b>${freeSpacesNumber}</b></p>
+                    <p>Availability: <b>${freeSpacesPercent} %</b></p>
+                    <br>
                 </div>
             </div>
         </div>

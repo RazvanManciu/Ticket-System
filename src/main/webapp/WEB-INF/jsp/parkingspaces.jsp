@@ -25,7 +25,8 @@
             <h2 class="display-4 page_title">Welcome ${pageContext.request.userPrincipal.name}</h2>
         </div>
 
-        <nav class="navbar navbar-expand-sm justify-content sticky-top" style="background-color: #006666; margin-bottom: 30px;">
+        <nav class="navbar navbar-expand-sm justify-content sticky-top"
+             style="background-color: #006666; margin-bottom: 30px;">
                 <%--        <a class="navbar-brand" href="#">Ticketing system</a>--%>
             <a class="navbar-brand mr-sm-3" href="${contextPath}/private/welcome">
                 <img src="${contextPath}/resources/img/sorinmiron_img.jpg" alt="User thumbnail" style="width: 45px">
@@ -42,7 +43,7 @@
                     <a class="nav-link" href="#">Parking Spaces</a>
                 </li>
                 <li class="nav-item mr-sm-4">
-                    <a class="nav-link" href="#">Statistics</a>
+                    <a class="nav-link" href="${contextPath}/private/statistics">Statistics</a>
                 </li>
                 <li class="nav-item mr-sm-4">
                     <a class="nav-link" href="#" onclick="document.forms['logoutForm'].submit()">Logout</a>

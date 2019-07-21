@@ -12,24 +12,27 @@ import java.util.List;
 
 @Controller
 @RequestMapping(value = "/private")
-public class ParkingSpacesController {
+public class StatisticsController {
 
     private ParkingSpaceService parkingSpaceService;
 
     @Autowired
-    public ParkingSpacesController(ParkingSpaceService parkingSpaceService) {
+    public StatisticsController(ParkingSpaceService parkingSpaceService) {
         this.parkingSpaceService = parkingSpaceService;
     }
 
-    @GetMapping("/spaces")
+    @GetMapping("/statistics")
     public String getAllSpaces(Model model) {
-        List<ParkingSpaceDTO> parkingSpaceDTOS = parkingSpaceService.getAll();
-        if (parkingSpaceDTOS.isEmpty()) {
-            model.addAttribute("parking_spaces_message", "Empty Parking Spaces list !!!");
-            model.addAttribute("parkingSpaceList", null);
-        } else {
-            model.addAttribute("parkingSpaceList", parkingSpaceDTOS);
+        int spacesNumber = parkingSpaceService.getNumberOfSpaces();
+        int freeSpacesNumber = parkingSpaceService.getNumberOfFreeSpaces();
+        float freeSpacesPercent = 0.0f;
+        if (spacesNumber != 0) {
+            freeSpacesPercent = (freeSpacesNumber * 100.0f) / spacesNumber;
         }
-        return "parkingspaces";
+        model.addAttribute("spacesNumber", spacesNumber);
+        model.addAttribute("freeSpacesNumber", freeSpacesNumber);
+        model.addAttribute("freeSpacesPercent", freeSpacesPercent);
+
+        return "statistics";
     }
 }

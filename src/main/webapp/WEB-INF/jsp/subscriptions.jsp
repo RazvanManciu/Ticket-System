@@ -42,7 +42,7 @@
                     <a class="nav-link" href="${contextPath}/private/spaces">Parking Spaces</a>
                 </li>
                 <li class="nav-item mr-sm-4">
-                    <a class="nav-link" href="#">Statistics</a>
+                    <a class="nav-link" href="${contextPath}/private/statistics">Statistics</a>
                 </li>
                 <li class="nav-item mr-sm-4">
                     <a class="nav-link" href="#" onclick="document.forms['logoutForm'].submit()">Logout</a>
